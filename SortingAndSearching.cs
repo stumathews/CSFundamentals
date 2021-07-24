@@ -4,22 +4,6 @@ using NUnit.Framework;
 
 namespace CSFundamentals
 {
-    public class Searching
-    {
-        public static int? LinearSearch(int v, int[] array, out int checks)
-        {
-            checks = 0;
-            for (int i = 0; i < array.Length - 1; i++)
-            {
-                checks++;
-                if (array[i] == v)
-                    return i;
-            }
-
-            return null;
-        }
-    }
-
     public class Tests
     {
         private readonly Sorting _sorting = new Sorting();
@@ -27,6 +11,20 @@ namespace CSFundamentals
         [SetUp]
         public void Setup()
         {
+        }
+        [Test]
+        public void TestBinarySearch()
+        {
+            int[] input = { 1,2,3,4,5,6,7,8,9, 10 }; // input must be sorted
+            const int expectedFindAtIndex = 9;
+
+            Assert.That(Searching.BinarySearch(21, new int[] { 1, 21, 34, 47, 58, 61, 73, 84, 91, 101 }, out var binarySearchChecks1) == 2);
+            Assert.That(Searching.BinarySearch(expectedFindAtIndex, input, out var binarySearchChecks2) == expectedFindAtIndex);
+            Assert.That(Searching.BinarySearch(expectedFindAtIndex, input, out var binarySearchChecks3) == expectedFindAtIndex);
+            Assert.That(Searching.BinarySearch(expectedFindAtIndex, input, out var binarySearchChecks) == expectedFindAtIndex);
+            Assert.That(Searching.LinearSearch(expectedFindAtIndex, input, out var linearSearchChecks) == expectedFindAtIndex);
+            Assert.That(binarySearchChecks < linearSearchChecks );
+            Console.WriteLine($"Linear checks = {linearSearchChecks}, binary checks = {binarySearchChecks}");
         }
 
         [Test]
@@ -48,7 +46,7 @@ namespace CSFundamentals
 
             var resultPos = Searching.LinearSearch(5, input, out var checks);
             Assert.That(checks == 4);
-            Assert.That(resultPos == 3);
+            Assert.That(resultPos == 4);
         }
 
         [Test]
